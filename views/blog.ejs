@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="/public/css/signin.css" rel="stylesheet">
+    <link href="/public/css/styles.css" rel="stylesheet">
+    <title>Blog</title>
+</head>
+
+<body>
+    <%- include('navbar') %>
+        <section class="container" id="blog">
+            <div class="">
+                <h2 class="fs-2 text-center fw-semibold p-4" style="color: #0db7c4">¿Qué es el plato saludable de la
+                    familia colombiana?</h2>
+                <p class="fs-4 p-3"> Es un símbolo fundamental en las pautas nutricionales que nos guía sobre la
+                    importancia de los seis grupos alimenticios recomendados para lograr una dieta diversa y saludable.
+                    La
+                    amplia gama de productos de estos grupos en nuestra nación resalta la riqueza y variedad de opciones
+                    disponibles, animándonos a disfrutar y aprovechar esta diversidad.
+                </p>
+        </section>
+
+        <section class="container " id="grupos-de-alimentos">
+            <h2 class="fs-2 text-center fw-semibold p-4" style="color: #0db7c4">Grupos de Alimentos</h2>
+            <img class="col text-center  img-fluid" loading="lazy" src="/public/assets/capture (8).webp"
+                alt="gruposalimentos">
+            <img class="col text-center mt-2  img-fluid" loading="lazy" src="/public/assets/capture (6).webp"
+                alt="gruposalimentos">
+            </div>
+        </section>
+
+        <section class="container">
+            <blockquote
+                cite="https://www.icbf.gov.co/system/files/cartilla_mi_plato_un_arcoiris_divertido_de_sabores.pdf">
+                <a class="cita text-center fs-4 p-3"
+                    href="https://www.icbf.gov.co/system/files/cartilla_mi_plato_un_arcoiris_divertido_de_sabores.pdf"
+                    target="_blank" rel="noopener noreferrer">
+                    <cite>Imagenes Tomadas de cartilla mi plato un arcoiris divertido de sabores</cite>
+                </a>
+            </blockquote>
+        </section>
+
+        <section class="img-fluid container" id="porciones-recomendadas">
+
+            <h2 class="fs-2 p-3 text-center fw-semibold" style="color: #0db7c4">Plato saludable de la
+                Familia Colombiana</h2>
+            <p class=" p-4 fs-4">El Plato Saludable de la Familia Colombiana es una guía para seleccionar
+                una dieta balanceada y variada. Recomienda que en cada comida se incluyan alimentos de todos los
+                grupos, o
+                al menos la mayoría de ellos, en porciones adecuadas.<br>
+                Además, los alimentos ilustrados en el Plato Saludable de la Familia Colombiana fomentan el consumo
+                de
+                productos frescos en lugar de los procesados industrialmente. Esto se debe a que los alimentos
+                procesados
+                suelen contener aditivos como azúcares, sodio y grasas, que los hacen menos saludables.</p>
+
+            <img class="col text-center img-fluid" loading="lazy" src="/public/assets/capture (4).webp"
+                alt="platosaludable">
+
+            <section class="text-center fs-4 p-3">
+                <blockquote cite="https://www.icbf.gov.co/sites/default/files/manual_facilitadores_gaba.pdf">
+                    <a class="cita" href="https://www.icbf.gov.co/sites/default/files/manual_facilitadores_gaba.pdf"
+                        target="_blank" rel="noopener noreferrer">
+                        <cite>Tomado de Manual Facilitadores GABA</cite>
+                    </a>
+                </blockquote>
+            </section>
+
+            <img class="col text-center img-fluid" loading="lazy" src="/public/assets/capture (5).webp"
+                alt="platosaludable">
+
+            <section class="text-center fs-4 p-3">
+                <blockquote cite="https://www.icbf.gov.co/sites/default/files/manual_facilitadores_gaba.pdf">
+                    <a class="cita" href="https://www.icbf.gov.co/sites/default/files/manual_facilitadores_gaba.pdf"
+                        target="_blank" rel="noopener noreferrer">
+                        <cite>Tomado de Manual Facilitadores GABA</cite>
+                    </a>
+                </blockquote>
+            </section>
+
+            <p class="text-center fs-4">
+                Recomendación de número de intercambios de alimentos por grupo de alimentos por grupo de edad por día
+            </p>
+
+            <img class="col text-center img-fluid" loading="lazy" src="/public/assets/capture (7).webp"
+                alt="platosaludable">
+
+            <section class="fs-4 text-center m-3">
+                <blockquote cite="https://www.icbf.gov.co/sites/default/files/manual_facilitadores_gaba.pdf">
+                    <a class="" href="https://www.icbf.gov.co/sites/default/files/manual_facilitadores_gaba.pdf"
+                        target="_blank" rel="noopener noreferrer">
+                        <cite>Fuente: Equipo académico del CTNGA, ICBF y FAO - 2013.</cite>
+                    </a>
+                </blockquote>
+            </section>
+        </section>
+        <%- include('footer') %>
+            <!-- Botón "Volver arriba" -->
+            <section class="scroll">
+                <a id="scroll-to-top" href="#" class="back-to-top" role="button">
+                    <i class="bi bi-arrow-up-circle-fill"></i></a>
+            </section>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+            <script src="https://kit.fontawesome.com/52b9ec387c.js" crossorigin="anonymous"></script>
+
+</body>
+
+</html>
