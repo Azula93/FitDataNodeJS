@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -12,9 +12,10 @@
 </head>
 
 <body>
-    <%- include('navbar') %>
+   
         <div class="container-fluid d-flex flex-column min-vh-100" id="pruebaesf">
-            <main class="flex-grow-1 ">
+            <%- include('navbar',{ user: user }) %>
+            <main class="flex-grow-1 mt-5">
                 <div class="container mt-3">
                     <section class="" id="vo2">
                         <section class="">
@@ -256,7 +257,7 @@
                             </section>
                             <hr class="my-4 border border-primary">
                 </div>
-                <%- include('footer') %>
+                <%- include('footer',{ user: user }) %>
                     <!-- Botón "Volver arriba" -->
                     <section class="scroll">
                         <a id="scroll-to-top" href="#" class="back-to-top" role="button">

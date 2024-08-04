@@ -130,4 +130,6 @@ footer {
   width: 100%;
 }
 
-
+.profile-img{
+  cursor: pointer;
+}

@@ -4,6 +4,8 @@ const bcryptjs = require('bcryptjs');
 const connection = require('../database/db');
 const { promisify } = require('util');
 const { encrypt } = require('../helpers/handleBcrypt');
+const PDFDocument = require('pdfkit');
+const fs = require('fs');
 
 // procedimiento para register
 // este metodo register que aparece aqui es propio de node, no es la ruta que ya definí para el formulario de registro
@@ -91,7 +93,7 @@ exports.login = async (req, res) => {
                 } else {
                     // Inicio de sesión válido
                     const id = results[0].id;
-                    const token = jwt.sign({ id: id }, process.env.JWT_SECRETO, {
+                    const token = jwt.sign({ id: id  }, process.env.JWT_SECRETO, {
                         expiresIn: process.env.JWT_TIEMPO_EXPIRA
                     });
 
@@ -101,6 +103,8 @@ exports.login = async (req, res) => {
                     };
 
                     res.cookie('jwt', token, cookiesOptions);
+
+                     
                     res.render('login', {
                         alert: true,
                         alertTitle: "Conexión Exitosa",
@@ -122,37 +126,34 @@ exports.login = async (req, res) => {
 
 // confirmar que el usuario esta autenticado
 exports.isAuthenticated = async (req, res, next) => {
-
     if (req.cookies.jwt) {
         try {
-            const decodificada = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRETO)
+            const decodificada = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRETO);
             connection.query('SELECT * FROM users WHERE id = ?', [decodificada.id], (error, results) => {
-
-
                 if (error) {
                     console.log(error);
+                    req.user = null;
                     return next();
                 }
 
-
                 if (results.length == 0) {
+                    req.user = null;
                     return next();
                 }
 
                 req.user = results[0];
                 return next();
             });
-
         } catch (error) {
-            console.log(error)
+            console.log(error);
+            req.user = null;
             return next();
-           
         }
     } else {
-        res.redirect('/login')
+        req.user = null;
+        return next();
     }
-}
-
+};
 
 // sistema logOut
 exports.logout = (req, res) => {

@@ -35,7 +35,7 @@ function limitarNumero(input, maxLength) {
 // FIN LIMITAR NUMERO
 
 // calcula IMC
-document.getElementById('imc-form').addEventListener('submit', function (e) {
+document.getElementById('imc-form').addEventListener('submit',async  function (e) {
   e.preventDefault();
   const peso = parseFloat(document.getElementById('peso').value);
   const talla = parseFloat(document.getElementById('talla').value);
@@ -76,7 +76,25 @@ document.getElementById('imc-form').addEventListener('submit', function (e) {
   }
   document.getElementById('resultImc').innerHTML = resultImc;
   document.getElementById("errorImc").innerHTML = errorImc;
-  document.getElementById('generate-pdf').style.display = 'block';
+  // document.getElementById('generate-pdf').style.display = 'block';
+  try {
+    const response = await fetch('/guardar-imc', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({  imc: formulaImc }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Error al guardar el resultado del IMC.');
+    }
+
+    console.log('Resultado del IMC guardado exitosamente.');
+  } catch (error) {
+    console.error('Error:', error);
+  }
+
 });
 
 // calcula ICC
@@ -127,4 +145,35 @@ document.getElementById('icc-form').addEventListener('submit', function (e) {
   document.getElementById('resultIcc').innerHTML = resultadoIcc;
   document.getElementById("errorIcc").innerHTML = errorIcc;
   document.getElementById('generate-pdf').style.display = 'block';
+});
+
+document.getElementById('generate-pdf').addEventListener('click', function () {
+  const imcText = document.getElementById('resultImc').innerText;
+  // const iccText = document.getElementById('resultIcc').innerText;
+  // const getText = document.getElementById('resultGet').innerText;
+  // const macroText = document.getElementById('resultMacro').innerText; //Macronutrientes
+  // const vo2Text = document.getElementById('resultVo2').innerText; //vo2
+  // const metsText = document.getElementById('resultadoMets').innerText; //METS
+  // const expectText = document.getElementById('resultExpect').innerText; //expect vida
+
+  fetch('/generate-pdf', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      imc: imcText
+      // icc: iccText,
+      // get: getText,
+      // macro: macroText,
+      // vo2:vo2Text,
+      // mets: metsText,
+      // expect: expectText
+    })
+  })
+    .then(response => response.blob())
+    .then(blob => {
+      const url = window.URL.createObjectURL(blob);
+      window.open(url, '_blank'); // Abre el PDF en una nueva pestaña
+    });
 });

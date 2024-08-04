@@ -12,10 +12,11 @@
 </head>
 
 <body>
-    <%- include('navbar') %>
+  
         <section class="container" id="blog">
+            <%- include('navbar',{ user: user }) %>
             <div class="">
-                <h2 class="fs-2 text-center fw-semibold p-4" style="color: #0db7c4">¿Qué es el plato saludable de la
+                <h2 class="fs-2 text-center fw-semibold p-4 mt-5" style="color: #0db7c4">¿Qué es el plato saludable de la
                     familia colombiana?</h2>
                 <p class="fs-4 p-3"> Es un símbolo fundamental en las pautas nutricionales que nos guía sobre la
                     importancia de los seis grupos alimenticios recomendados para lograr una dieta diversa y saludable.
@@ -99,7 +100,7 @@
                 </blockquote>
             </section>
         </section>
-        <%- include('footer') %>
+        <%- include('footer',{ user: user }) %>
             <!-- Botón "Volver arriba" -->
             <section class="scroll">
                 <a id="scroll-to-top" href="#" class="back-to-top" role="button">

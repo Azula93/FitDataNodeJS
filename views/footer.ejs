@@ -10,11 +10,19 @@
             <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
                 <h5 class="text-uppercase">Navegación</h5>
                 <ul class="list-unstyled mb-0 footer-links">
+                    <% if (user) { %>
                     <li><a href="#!" class="text-dark text-decoration-none">Tu Cuenta</a></li>
-                    <li><a href="#!" class="text-dark text-decoration-none">Inicio</a></li>
-                    <li><a href="#!" class="text-dark text-decoration-none">Valoración Nutricional</a></li>
-                    <li><a href="#!" class="text-dark text-decoration-none">Prueba de Esfuerzo</a></li>
-                    <li><a href="#!" class="text-dark text-decoration-none">Blog</a></li>
+                    <li><a href="/panelcontrol" class="text-dark text-decoration-none">Inicio</a></li>
+                    <li><a href="/valoracion" class="text-dark text-decoration-none">Valoración Nutricional</a></li>
+                    <li><a href="/pruebaEsfuerzo" class="text-dark text-decoration-none">Prueba de Esfuerzo</a></li>
+                    <li><a href="/blog" class="text-dark text-decoration-none">Blog</a></li>
+
+                    <% } else { %>
+                        <li><a href="/panelcontrol" class="text-dark text-decoration-none">Inicio</a></li>
+                        <li><a href="/valoracion" class="text-dark text-decoration-none">Valoración Nutricional</a></li>
+                        <li><a href="/pruebaEsfuerzo" class="text-dark text-decoration-none">Prueba de Esfuerzo</a></li>
+                        <li><a href="/blog" class="text-dark text-decoration-none">Blog</a></li>
+                    <% } %>
                 </ul>
             </div>
             <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
