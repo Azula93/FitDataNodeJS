@@ -2,7 +2,7 @@
 const getResultImg = "/public/assets/img (12).webp";
 const imgMacro = "/public/assets/img (22).webp";
 // // IMAGENES GET
-
+// import {combineFormData}  from './datoscombinados';
 
 function limitarNumero(input, maxLength) {
   if (input.value.length > maxLength) {
@@ -48,7 +48,7 @@ function EleccionDeporte() {
 }
 
 // calcula GET
-document.getElementById('get-form').addEventListener('submit', function (e) {
+document.getElementById('imc-form').addEventListener('submit', async function (e) {
   e.preventDefault();
   // Obtener los datos seleccionados
   const factorActividad = obtenerSeleccion("factorActividad");
@@ -107,7 +107,25 @@ document.getElementById('get-form').addEventListener('submit', function (e) {
   }
   document.getElementById('resultGet').innerHTML = resultadoGet;
   document.getElementById("errorGet").innerHTML = errorGet;
-  document.getElementById('generate-pdf').style.display = 'block';
+  // document.getElementById('generate-pdf').style.display = 'block';
+
+  try {
+    const response = await fetch('/guardar-imc', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({  get: resultadoGet }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Error al guardar el resultado del IMC.');
+    }
+
+    console.log('Resultado del IMC guardado exitosamente.');
+  } catch (error) {
+    console.error('Error:', error);
+  }
 });
 
 

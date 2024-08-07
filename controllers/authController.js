@@ -4,8 +4,6 @@ const bcryptjs = require('bcryptjs');
 const connection = require('../database/db');
 const { promisify } = require('util');
 const { encrypt } = require('../helpers/handleBcrypt');
-const PDFDocument = require('pdfkit');
-const fs = require('fs');
 
 // procedimiento para register
 // este metodo register que aparece aqui es propio de node, no es la ruta que ya definí para el formulario de registro

@@ -49,28 +49,45 @@
                                     <th>VO2</th>
                                     <th>METS</th>
                                     <th>Expectativa de Vida</th>
+                                    <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <% datos.forEach((dato, index) => { %>
-                                    <tr>
-                                        <td><%= index + 1 %></td>
-                                        <td><%= dato.imc %></td>
-                                        <td><%= dato.icc %></td>
-                                        <td><%= dato.gasto_energetico %></td>
-                                        <td><%= dato.chos %></td>
-                                        <td><%= dato.proteinas %></td>
-                                        <td><%= dato.grasas %></td>
-                                        <td><%= dato.vo2 %></td>
-                                        <td><%= dato.mets %></td>
-                                        <td><%= dato.expect_vida %></td>
-                                    </tr>
-                                <% }) %>
+                                <% 
+                                let groupedData = {};
+                                datos.forEach(dato => {
+                                    if (!groupedData[dato.data_set_id]) {
+                                        groupedData[dato.data_set_id] = {};
+                                    }
+                                    Object.assign(groupedData[dato.data_set_id], dato);
+                                });
+                    
+                                Object.keys(groupedData).forEach((dataSetId, index) => {
+                                    let dato = groupedData[dataSetId];
+                                %>
+                                <tr id="data-row-<%= dataSetId %>">
+                                    <td><%= index + 1 %></td>
+                                    <td><%= dato.imc || 'N/A' %></td>
+                                    <td><%= dato.icc || 'N/A' %></td>
+                                    <td><%= dato.gasto_energetico || 'N/A' %></td>
+                                    <td><%= dato.chos || 'N/A' %></td>
+                                    <td><%= dato.proteinas || 'N/A' %></td>
+                                    <td><%= dato.grasas || 'N/A' %></td>
+                                    <td><%= dato.vo2 || 'N/A' %></td>
+                                    <td><%= dato.mets || 'N/A' %></td>
+                                    <td><%= dato.expect_vida || 'N/A' %></td>
+                                    <td>
+                                        <button class="btn btn-danger btn-sm delete-btn" data-id="<%= dataSetId %>">Eliminar</button>
+                                    </td>
+                                </tr>
+                                <% }); %>
                             </tbody>
                         </table>
                     <% } else { %>
                         <p>No hay datos disponibles.</p>
                     <% } %>
+                    
+               
 
                                 <div class="p-3">
                                     <a class="btn btn-primary " href="/generar-pdf" target="_blank">Generar PDF</a>
@@ -88,6 +105,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://kit.fontawesome.com/52b9ec387c.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/public/js/delete.js"></script>
+    <!-- <script  type="module" src="/public/js/datoscombinados.js"></script> -->
 </body>
 
 </html>

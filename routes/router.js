@@ -40,35 +40,23 @@ router.get('/blog', authController.isAuthenticated, (req, res) => {
     res.render('blog', { user: req.user })
 })
 
+
 router.get('/misdatos', authController.isAuthenticated, (req, res) => {
 
     try {
         const userId = req.user.id;
-        connection.query('SELECT * FROM user_data WHERE user_id = ?', [userId], (error, results) => {
+        connection.query('SELECT * FROM user_data WHERE user_id = ? ', [userId], (error, results) => {
             if (error) {
                 console.log(error);
                 return res.status(500).send('Error al obtener los datos del usuario.');
             }
-            res.render('misdatos', { user: req.user, datos: results });
+            res.render('misdatos', { datos: results , user: req.user  });
         });
     } catch (error) {
         console.log(error);
         res.status(500).send('Error en el servidor.');
     }
 })
-
-
-router.get('/misdatos', authController.isAuthenticated, (req, res) => {
-    const userId = req.user.id;
-    connection.query('SELECT * FROM user_data WHERE user_id = ?', [userId], (error, results) => {
-        if (error) {
-            console.log(error);
-            return res.status(500).send('Error al obtener los datos del usuario.');
-        }
-
-        res.render('misdatos', { user: req.user, datos: results });
-    });
-});
 
 
 // GENERA PDF
