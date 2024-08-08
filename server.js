@@ -5,8 +5,8 @@ const path = require('path');
 const connection = require('./database/db');
 const app = express();
 const authController = require('./controllers/authController');
-const PDFDocument = require('pdfkit');
-const fs = require('fs');
+const Swal = require('sweetalert2');
+
 
 
 //variables de entorno
@@ -58,12 +58,12 @@ app.use('/', require('./routes/router'));
 app.post('/guardar-imc', authController.isAuthenticated, async (req, res) => {
     try {
       const userId = req.user.id;  // Aquí obtienes el ID del usuario autenticado
-      const {imc} = req.body;
+      const {imc, icc} = req.body;
   
       // Asegúrate de validar los datos antes de usarlos
       connection.query(
-          'INSERT INTO user_data (user_id, imc ) VALUES (?, ?)',
-          [userId, imc],
+          'INSERT INTO user_data (user_id, imc,icc ) VALUES (?, ?, ?)',
+          [userId, imc,icc],
           (error, results) => {
               if (error) {
                   console.log(error);
@@ -97,6 +97,7 @@ app.delete('/eliminar-dato/:id', authController.isAuthenticated, (req, res) => {
         }
     );
 });
+  
 // ELIMINAR DATOS DE "misdatos"
 
 

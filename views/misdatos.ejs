@@ -35,57 +35,44 @@
                     </section>
 
 
-                    <% if (datos.length > 0) { %>
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>IMC</th>
-                                    <th>ICC</th>
-                                    <th>Gasto Energético</th>
-                                    <th>Carbohidratos</th>
-                                    <th>Proteínas</th>
-                                    <th>Grasas</th>
-                                    <th>VO2</th>
-                                    <th>METS</th>
-                                    <th>Expectativa de Vida</th>
-                                    <th>Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <% 
-                                let groupedData = {};
-                                datos.forEach(dato => {
-                                    if (!groupedData[dato.data_set_id]) {
-                                        groupedData[dato.data_set_id] = {};
-                                    }
-                                    Object.assign(groupedData[dato.data_set_id], dato);
-                                });
-                    
-                                Object.keys(groupedData).forEach((dataSetId, index) => {
-                                    let dato = groupedData[dataSetId];
-                                %>
-                                <tr id="data-row-<%= dataSetId %>">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>IMC</th>
+                                <th>ICC</th>
+                                <th>Gasto Energético</th>
+                                <th>Carbohidratos</th>
+                                <th>Proteínas</th>
+                                <th>Grasas</th>
+                                <th>VO2</th>
+                                <th>METS</th>
+                                <th>Expectativa de Vida</th>
+                                <th>Acciones</th> <!-- Nueva columna para los botones de eliminar -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% datos.forEach((dato, index) => { %>
+                                <tr id="data-row-<%= dato.id %>"> <!-- Agrega un ID único para cada fila -->
                                     <td><%= index + 1 %></td>
-                                    <td><%= dato.imc || 'N/A' %></td>
-                                    <td><%= dato.icc || 'N/A' %></td>
-                                    <td><%= dato.gasto_energetico || 'N/A' %></td>
-                                    <td><%= dato.chos || 'N/A' %></td>
-                                    <td><%= dato.proteinas || 'N/A' %></td>
-                                    <td><%= dato.grasas || 'N/A' %></td>
-                                    <td><%= dato.vo2 || 'N/A' %></td>
-                                    <td><%= dato.mets || 'N/A' %></td>
-                                    <td><%= dato.expect_vida || 'N/A' %></td>
+                                    <td><%= dato.imc %></td>
+                                    <td><%= dato.icc %></td>
+                                    <td><%= dato.gasto_energetico %></td>
+                                    <td><%= dato.chos %></td>
+                                    <td><%= dato.proteinas %></td>
+                                    <td><%= dato.grasas %></td>
+                                    <td><%= dato.vo2 %></td>
+                                    <td><%= dato.mets %></td>
+                                    <td><%= dato.expect_vida %></td>
                                     <td>
-                                        <button class="btn btn-danger btn-sm delete-btn" data-id="<%= dataSetId %>">Eliminar</button>
+                                        <button class="btn btn-danger btn-sm delete-btn" data-id="<%= dato.id %>">Eliminar</button>
                                     </td>
                                 </tr>
-                                <% }); %>
-                            </tbody>
-                        </table>
-                    <% } else { %>
-                        <p>No hay datos disponibles.</p>
-                    <% } %>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                    
+                    
                     
                
 

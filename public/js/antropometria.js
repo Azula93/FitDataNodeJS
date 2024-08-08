@@ -152,7 +152,7 @@ document.getElementById('icc-form').addEventListener('submit',async function (e)
   // document.getElementById('generate-pdf').style.display = 'block';
 
   try {
-    const response = await fetch('/guardar-datos', {
+    const response = await fetch('/guardar-imc', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -161,10 +161,10 @@ document.getElementById('icc-form').addEventListener('submit',async function (e)
     });
 
     if (!response.ok) {
-      throw new Error('Error al guardar el resultado del IcC.');
+      throw new Error('Error al guardar el resultado del IMC.');
     }
 
-    console.log('Resultado del IMC guardado exitosamente.');
+    console.log('Resultado del ICC guardado exitosamente.');
   } catch (error) {
     console.error('Error:', error);
   }
