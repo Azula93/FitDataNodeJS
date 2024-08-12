@@ -1,30 +1,3 @@
-/**
- * Envía los datos a la API para guardarlos en la base de datos.
- * @param {Object} datos - Un objeto con los datos a enviar. Por ejemplo: { imc: 22.5 }
- * @param {string} url - La URL del endpoint al que se enviarán los datos. Por ejemplo: '/guardar-datos'
- * @param {string} [errorMessage='Error al guardar los datos.'] - Mensaje de error personalizado si la solicitud falla. Opcional.
- * @returns {Promise<void>} - Una promesa que se resuelve cuando la solicitud se completa.
- */
-async function guardarDatos(datos, url, errorMessage = 'Error al guardar los datos.') {
-  try {
-      const response = await fetch(url, {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(datos),
-      });
-
-      if (!response.ok) {
-          throw new Error(`${errorMessage}: ${response.statusText}`);
-      }
-
-      console.log('Datos guardados exitosamente.');
-  } catch (error) {
-      console.error('Error:', error);
-  }
-}
-
 // IMAGEMES IMC
 const imclow = '/public/assets/img (18).webp';
 const imcOK = '/public/assets/img (14).webp';
@@ -53,6 +26,46 @@ function limitarNumero(input, maxLength) {
 }
 // FIN LIMITAR NUMERO
 
+// FUNCIONES PARA FILTRAR TEXTO PARA LA TABLA MIS DATOS
+function filtrarYLimpiarTextoImc(texto) {
+  // Primero, elimina todas las etiquetas HTML
+  const textoSinHTML = texto.replace(/<\/?[^>]+(>|$)/g, "");
+
+  // Expresión regular para extraer palabras permitidas y números
+  const regex = /(\bBAJO PESO\b|\bPESO NORMAL\b|\bSOBREPESO\b|\bOBESIDAD GRADO I\b|\bOBESIDAD GRADO II\b|\bOBESIDAD GRADO III\b|\d+)(?:\.|\s+)?/gi;
+
+  
+
+  // Extraer solo los elementos que coinciden con la expresión regular
+  const coincidencias = textoSinHTML.match(regex);
+
+  if (coincidencias) {
+    // Unir las coincidencias con un espacio
+    return coincidencias.join(' ');
+  }
+
+  return '';
+}
+
+function filtrarYLimpiarTextoIcc(texto) {
+  // Primero, elimina todas las etiquetas HTML
+  const textoSinHTML = texto.replace(/<\/?[^>]+(>|$)/g, "");
+
+  // Expresión regular para extraer palabras permitidas y números
+  const regex = /(\bSIN RIESGO CARDIOVASCULAR\b|\bCON RIESGO CARDIOVASCULAR\b|\d+)(?:\.|\s+)?/gi;
+
+
+  // Extraer solo los elementos que coinciden con la expresión regular
+  const coincidencias = textoSinHTML.match(regex);
+
+  if (coincidencias) {
+    // Unir las coincidencias con un espacio
+    return coincidencias.join(' ');
+  }
+
+  return '';
+}
+// FUNCIONES PARA FILTRAR TEXTO PARA LA TABLA MIS DATOS
 
 // calcula IMC
 document.getElementById('imc-form').addEventListener('submit', async function (e) {
@@ -96,7 +109,7 @@ document.getElementById('imc-form').addEventListener('submit', async function (e
   }
   document.getElementById('resultImc').innerHTML = resultImc;
   document.getElementById("errorImc").innerHTML = errorImc;
-  // document.getElementById('generate-pdf').style.display = 'block';
+  const textoLimpioImc = filtrarYLimpiarTextoImc(resultImc);
 
   try {
     const response = await fetch('/guardar-datos', {
@@ -104,7 +117,7 @@ document.getElementById('imc-form').addEventListener('submit', async function (e
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ imc: formulaImc})
+        body: JSON.stringify({ imc: textoLimpioImc})
     });
 
     if (response.ok) {
@@ -116,6 +129,7 @@ document.getElementById('imc-form').addEventListener('submit', async function (e
     console.error('Error en la solicitud:', error);
 }
 });
+
 
 // calcula ICC
 document.getElementById('icc-form').addEventListener('submit',async function (e) {
@@ -164,7 +178,8 @@ document.getElementById('icc-form').addEventListener('submit',async function (e)
   }
   document.getElementById('resultIcc').innerHTML = resultadoIcc;
   document.getElementById("errorIcc").innerHTML = errorIcc;
-  // document.getElementById('generate-pdf').style.display = 'block';
+  const textoLimpioIcc = filtrarYLimpiarTextoIcc(resultadoIcc);
+
   
   try {
     const response = await fetch('/guardar-datos', {
@@ -172,7 +187,7 @@ document.getElementById('icc-form').addEventListener('submit',async function (e)
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ icc: formulaIcc })
+        body: JSON.stringify({ icc: textoLimpioIcc })
     });
 
     if (response.ok) {

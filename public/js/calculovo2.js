@@ -37,8 +37,6 @@ document.getElementById('vo2-form').addEventListener('submit',async function (e)
 
     let Mets = Vo2Max / 3.5;
 
-    
-
     document.getElementById("resultadoVo2").innerHTML = `${Vo2Max} ml/kg/min`;
     document.getElementById("numMets").innerHTML = `${Math.trunc(Mets)} `;
 
@@ -106,64 +104,132 @@ document.getElementById('vo2-form').addEventListener('submit',async function (e)
 
 
 
-document.getElementById('expect-form').addEventListener('submit', async function (e) {
+// document.getElementById('expect-form').addEventListener('submit', async function (e) {
 
+//     e.preventDefault();
+
+//     // Toma los datos ingresados en la actividad fisica de la expectativa de vida
+//     const opcinesActFisica = document.getElementsByName("expectvida");
+//     let ActividadFisicaExpectVida = "";
+
+//     for (const opcion of opcinesActFisica) {
+//         if (opcion.checked) {
+//             ActividadFisicaExpectVida = opcion.value;
+//             break;
+//         }
+//     }
+    
+//     let BPM = document.getElementById("BPM").value;
+//     let altura = document.getElementById("H").value;
+
+//     let H = altura / 100;
+
+//     let PPM = BPM / 4;
+
+//     let Vo2Max = Math.trunc(PPM * 0.2 + PPM * H * 1.33 * 1.8 + 3.5);
+
+//     let inactivo = Vo2Max / 0.5;
+//     let activo = Vo2Max / 0.4;
+
+//     let resultadoExpectVida = '';
+
+
+//     switch (true) {
+//         case ActividadFisicaExpectVida == 'menos 3 v-s':
+//             resultadoExpectVida = `<p class="fs-2">Tu expectativa de vida es  <b class="expectYears">${inactivo} años.</b> <img class="w-50" src="${Vo2imgthink}" alt="Imagenthink">
+//             <br>Recuerda que este dato es <b>SOLO UNA ESTIMACIóN.</b> 
+//             Tu expectativa de vida puede variar en función de tus habitos de vida y condiciones externas.</p>`;
+//             break;
+
+//         case ActividadFisicaExpectVida == 'mas 3 v-s':
+//             resultadoExpectVida = `<p class="fs-2">Tu expectativa de vida es <b class="expectYears">${activo} años.</b> <img class="w-50" src="${Vo2imgthink}" alt="Imagentjink">
+//             <br>Recuerda que este dato es <b>SOLO UNA ESTIMACIóN.</b><br>  
+//             Tu expectativa de vida puede variar en función de tus habitos de vida y condiciones externas.</p>`;
+//             break;
+
+//         default:
+//             resultadoExpectVida = `<p class="text-danger fw-bold"> Selecciona cuantas veces por semana realizas ejercicio!</p> <img class="w-50" src="${Vo2Error}" alt="ImagenError">`;
+
+//     }
+
+//     document.getElementById('resultExpect').innerHTML = resultadoExpectVida;
+//     document.getElementById("resultExpect").innerHTML = `${resultadoExpectVida} años`;
+//     let expectFinal = document.querySelector(".expectYears").innerHTML = `${resultadoExpectVida}`;
+//     const textoLimpioExpect = eliminarEtiquetasHTML(expectFinal);
+//     console.log(textoLimpioExpect)
+    
+//     try {
+//         const response = await fetch('/guardar-datos', {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json'
+//             },
+//             body: JSON.stringify({ expect_vida: textoLimpioExpect })
+//         });
+    
+//         if (response.ok) {
+//             console.log('Datos expect_vida enviados exitosamente');
+//         } else {
+//             console.error('Error al enviar los datos expect_vida');
+//         }
+//     } catch (error) {
+//         console.error('Error en la solicitud:', error);
+//     }
+// });
+
+document.getElementById('expect-form').addEventListener('submit', async function (e) {
     e.preventDefault();
+
     // Toma los datos ingresados en la actividad fisica de la expectativa de vida
-    const opcinesActFisica = document.getElementsByName("expectvida");
+    const opcionesActFisica = document.getElementsByName("expectvida");
     let ActividadFisicaExpectVida = "";
 
-    for (const opcion of opcinesActFisica) {
+    for (const opcion of opcionesActFisica) {
         if (opcion.checked) {
             ActividadFisicaExpectVida = opcion.value;
             break;
         }
     }
     
-
     let BPM = document.getElementById("BPM").value;
     let altura = document.getElementById("H").value;
 
     let H = altura / 100;
-
     let PPM = BPM / 4;
-
     let Vo2Max = Math.trunc(PPM * 0.2 + PPM * H * 1.33 * 1.8 + 3.5);
 
     let inactivo = Vo2Max / 0.5;
     let activo = Vo2Max / 0.4;
 
-    let resultadoExpectVida = '';
-
-    switch (true) {
-        case ActividadFisicaExpectVida == 'menos 3 v-s':
-            resultadoExpectVida = `<p class="fs-2">Tu expectativa de vida es  <b>${inactivo} años.</b> <img class="w-50" src="${Vo2imgthink}" alt="Imagenthink">
+    // Mapeo de resultados según la opción seleccionada
+    const resultados = {
+        'menos 3 v-s': `<p class="fs-2">Tu expectativa de vida es <b class="expectYears">${inactivo} años.</b> <img class="w-50" src="${Vo2imgthink}" alt="Imagenthink">
             <br>Recuerda que este dato es <b>SOLO UNA ESTIMACIóN.</b> 
-            Tu expectativa de vida puede variar en función de tus habitos de vida y condiciones externas.</p>`;
-            break;
-
-        case ActividadFisicaExpectVida == 'mas 3 v-s':
-            resultadoExpectVida = `<p class="fs-2">Tu expectativa de vida es <b>${activo} años.</b> <img class="w-50" src="${Vo2imgthink}" alt="Imagentjink">
+            Tu expectativa de vida puede variar en función de tus habitos de vida y condiciones externas.</p>`,
+        'mas 3 v-s': `<p class="fs-2">Tu expectativa de vida es <b class="expectYears">${activo} años.</b> <img class="w-50" src="${Vo2imgthink}" alt="Imagentjink">
             <br>Recuerda que este dato es <b>SOLO UNA ESTIMACIóN.</b><br>  
-            Tu expectativa de vida puede variar en función de tus habitos de vida y condiciones externas.</p>`;
-            break;
+            Tu expectativa de vida puede variar en función de tus habitos de vida y condiciones externas.</p>`,
+        'default': `<p class="text-danger fw-bold"> Selecciona cuantas veces por semana realizas ejercicio!</p> <img class="w-50" src="${Vo2Error}" alt="ImagenError">`
+    };
 
-        default:
-            resultadoExpectVida = `<p class="text-danger fw-bold"> Selecciona cuantas veces por semana realizas ejercicio!</p> <img class="w-50" src="${Vo2Error}" alt="ImagenError">`;
-
-    }
+    // Obtener el resultado correspondiente
+    let resultadoExpectVida = resultados[ActividadFisicaExpectVida] || resultados['default'];
 
     document.getElementById('resultExpect').innerHTML = resultadoExpectVida;
-    // document.getElementById("errorExpect").innerHTML = errorExpect;
-    // document.getElementById('generate-pdf').style.display = 'block';
 
+    // Extraer y limpiar el contenido
+    let expectElement = document.querySelector(".expectYears");
+    const textoLimpioExpect = expectElement ? eliminarEtiquetasHTML(expectElement.innerHTML) : '';
+
+    console.log(textoLimpioExpect);
+    
     try {
         const response = await fetch('/guardar-datos', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ expect_vida: resultadoExpectVida })
+            body: JSON.stringify({ expect_vida: textoLimpioExpect })
         });
     
         if (response.ok) {
