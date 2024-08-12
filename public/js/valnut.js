@@ -1,28 +1,28 @@
-// // IMAGENES GET
+// IMAGENES GET
 const getResultImg = "/public/assets/img (12).webp";
 const imgMacro = "/public/assets/img (22).webp";
 // // IMAGENES GET
-// import {combineFormData}  from './datoscombinados';
+
+
+function eliminarEtiquetasHTML(texto) {
+  return texto.replace(/<\/?[^>]+(>|$)/g, "");
+}
 
 function limitarNumero(input, maxLength) {
   if (input.value.length > maxLength) {
       input.value = input.value.slice(0, maxLength);
-      document.getElementById('errorMensaje').textContent = 'Máximo 3 dígitos permitidos.';
       document.getElementById('errorMensajeTalla').textContent = 'Máximo 3 dígitos permitidos.';
       document.getElementById('errorMensajePeso').textContent = 'Máximo 3 dígitos permitidos.';
       document.getElementById('errorMensajeEdad').textContent = 'Máximo 2 dígitos permitidos.';
-      document.getElementById('errorMensajePPM').textContent = 'Máximo 3 dígitos permitidos.';
-      document.getElementById('errorMensajeH').textContent = 'Máximo 2 dígitos permitidos.';
+      
   } else {
-      document.getElementById('errorMensaje').textContent = '';
+     
       document.getElementById('errorMensajeTalla').textContent = '';
       document.getElementById('errorMensajePeso').textContent = '';
       document.getElementById('errorMensajeEdad').textContent = '';
-      document.getElementById('errorMensajePPM').textContent = '';
-      document.getElementById('errorMensajeH').textContent = '';
+     
   }
 }
-
 
 function obtenerSeleccion(name) {
   const opciones = document.getElementsByName(name);
@@ -48,7 +48,7 @@ function EleccionDeporte() {
 }
 
 // calcula GET
-document.getElementById('imc-form').addEventListener('submit', async function (e) {
+document.getElementById('get-form').addEventListener('submit', async function (e) {
   e.preventDefault();
   // Obtener los datos seleccionados
   const factorActividad = obtenerSeleccion("factorActividad");
@@ -106,31 +106,35 @@ document.getElementById('imc-form').addEventListener('submit', async function (e
 
   }
   document.getElementById('resultGet').innerHTML = resultadoGet;
+  const textoLimpioGet = eliminarEtiquetasHTML(resultadoGet);
   document.getElementById("errorGet").innerHTML = errorGet;
   // document.getElementById('generate-pdf').style.display = 'block';
 
   try {
-    const response = await fetch('/guardar-imc', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({  get: resultadoGet }),
+    const response = await fetch('/guardar-datos', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ gasto_energetico	: textoLimpioGet })
     });
 
-    if (!response.ok) {
-      throw new Error('Error al guardar el resultado del IMC.');
-    }
+    if (response.ok) {
+        console.log('Datos get enviados exitosamente');
+        console.log(resultadoGet);
 
-    console.log('Resultado del IMC guardado exitosamente.');
-  } catch (error) {
-    console.error('Error:', error);
-  }
+    } else {
+        console.error('Error al enviar los datos get');
+    }
+} catch (error) {
+    console.error('Error en la solicitud:', error);
+}
 });
 
 
+
 // calcula MACRONUTRIENTES
-document.getElementById('macro-form').addEventListener('submit', function (e) {
+document.getElementById('macro-form').addEventListener('submit', async function (e) {
   e.preventDefault();
   // Funcion para calcular los macronutientes en Gramos
 
@@ -337,7 +341,27 @@ document.getElementById('macro-form').addEventListener('submit', function (e) {
           en la sección del GET ☝️</p>`
   }
   document.getElementById('resultMacro').innerHTML = macronutrientesGr;
+  const textoLimpio = eliminarEtiquetasHTML(macronutrientesGr);
   document.getElementById("errorMacro").innerHTML = errorMacro;
-  document.getElementById('generate-pdf').style.display = 'block';
+  // document.getElementById('generate-pdf').style.display = 'block';
+
+  
+  try {
+    const response = await fetch('/guardar-datos', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ macro	: textoLimpio })
+    });
+
+    if (response.ok) {
+        console.log('Datos macro enviados exitosamente');
+    } else {
+        console.error('Error al enviar los datos macro');
+    }
+} catch (error) {
+    console.error('Error en la solicitud:', error);
+}
 });
 

@@ -1,40 +1,53 @@
-
 document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.delete-btn').forEach(button => {
-        button.addEventListener('click', async (e) => {
-            const id = e.target.getAttribute('data-id');
+    const eliminarBtns = document.querySelectorAll('.btn-eliminar');
 
-            try {
-                const response = await fetch(`/eliminar-dato/${id}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                });
+    eliminarBtns.forEach(btn => {
+        btn.addEventListener('click', async (event) => {
+            const userId = event.target.getAttribute('data-id');
 
-                if (!response.ok) {
-                    throw new Error('Error al eliminar el dato.');
+            const result = await Swal.fire({
+                title: '¿Estás seguro?',
+                text: '¡Este dato será eliminado!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            });
+
+            if (result.isConfirmed) {
+                try {
+                    const response = await fetch(`/eliminar-dato/${userId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    });
+
+                    if (response.ok) {
+                        Swal.fire(
+                            'Eliminado',
+                            'El dato ha sido eliminado.',
+                            'success'
+                        ).then(() => {
+                            location.reload();
+                        });
+                    } else {
+                        Swal.fire(
+                            'Error',
+                            'No se pudo eliminar el dato.',
+                            'error'
+                        );
+                    }
+                } catch (error) {
+                    Swal.fire(
+                        'Error',
+                        'Ocurrió un error al eliminar el dato.',
+                        'error'
+                    );
                 }
-
-                // Eliminar la fila de la tabla
-                document.getElementById(`data-row-${id}`).remove();
-
-                // Opcional: Mostrar un mensaje de éxito
-                Swal.fire({
-                    icon: 'success',
-                    title: '¡Dato eliminado!',
-                    text: 'El dato ha sido eliminado exitosamente.',
-                });
-
-            } catch (error) {
-                console.error('Error:', error);
-
-                // Opcional: Mostrar un mensaje de error
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'No se pudo eliminar el dato.',
-                });
             }
         });
     });

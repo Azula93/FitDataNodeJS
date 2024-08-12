@@ -5,7 +5,6 @@ const path = require('path');
 const connection = require('./database/db');
 const app = express();
 const authController = require('./controllers/authController');
-const Swal = require('sweetalert2');
 
 
 
@@ -33,70 +32,67 @@ app.use(cookieParser());
 app.use('/', require('./routes/router'));
 
 // ******CODIGO PARA GUARDAR LOS DATOS EN LA DB ******
-// app.post('/guardar-datos', authController.isAuthenticated,  (req, res) => {
-//     try {
-//         const userId = req.user.id;  // Aquí obtienes el ID del usuario autenticado
-//         const formData = req.body;
-//         const { imc, icc, gasto_energetico, chos, proteinas, grasas, vo2, mets, expect_vida} = formData;
-       
-//         connection.query(
-//             'INSERT INTO user_data (user_id, imc, icc, gasto_energetico, chos, proteinas, grasas, vo2, mets, expect_vida) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-//             [userId, imc, icc, gasto_energetico, chos, proteinas, grasas, vo2, mets, expect_vida],
-//             (error, results) => {
-//                 if (error) {
-//                     console.log(error);
-//                     return res.status(500).send('Error al guardar los datos.');
-//                 }
-//                 res.status(200).send('Datos guardados exitosamente.');
-//             }
-//         );
-//     } catch (error) {
-//         console.log(error);
-//         res.status(500).send('Error en el servidor.');
-//     }
-// });
-app.post('/guardar-imc', authController.isAuthenticated, async (req, res) => {
-    try {
-      const userId = req.user.id;  // Aquí obtienes el ID del usuario autenticado
-      const {imc, icc} = req.body;
-  
-      // Asegúrate de validar los datos antes de usarlos
-      connection.query(
-          'INSERT INTO user_data (user_id, imc,icc ) VALUES (?, ?, ?)',
-          [userId, imc,icc],
-          (error, results) => {
-              if (error) {
-                  console.log(error);
-                  return res.status(500).send('Error al guardar los datos.');
-              }
-              res.status(200).send('Datos guardados exitosamente.');
-          }
-      );
-  } catch (error) {
-      console.log(error);
-      res.status(500).send('Error en el servidor.');
-  }
+app.post('/guardar-datos', authController.isAuthenticated,(req, res) => {
+
+     const userId = req.user.id; // Obtén el ID del usuario autenticado
+    const { imc, icc, gasto_energetico, macro, vo2, mets, expect_vida } = req.body;
+
+    const query = `
+        INSERT INTO user_data (user_id, imc, icc, gasto_energetico, macro, vo2,mets, expect_vida)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        ON DUPLICATE KEY UPDATE 
+            imc = COALESCE(VALUES(imc), imc),
+            icc = COALESCE(VALUES(icc), icc),
+            gasto_energetico = COALESCE(VALUES(gasto_energetico), gasto_energetico),
+            macro = COALESCE(VALUES(macro), macro),
+            vo2 = COALESCE(VALUES(vo2), vo2),
+            mets = COALESCE(VALUES(mets), mets),
+            expect_vida = COALESCE(VALUES(expect_vida), expect_vida);
+    `;
+
+    connection.query(query, [userId, imc, icc, gasto_energetico, macro, vo2, mets, expect_vida], (err, results) => {
+        if (err) {
+            console.error('Error al guardar el dato:', err);
+            return res.status(500).send('Error al guardar el dato');
+        }
+        res.status(200).send('Datos guardados exitosamente');
     });
+});
 // ******CODIGO PARA GUARDAR LOS DATOS EN LA DB ******
 
 
 // ELIMINAR DATOS DE "misdatos"
-app.delete('/eliminar-dato/:id', authController.isAuthenticated, (req, res) => {
-    const userId = req.user.id;
-    const dataId = req.params.id;
+// app.delete('/eliminar-dato/:user_id', authController.isAuthenticated, (req, res) => {
+//     const userId = req.user.user_id;
+//     const dataId = req.params.user_id;
 
-    connection.query(
-        'DELETE FROM user_data WHERE id = ? AND user_id = ?',
-        [dataId, userId],
-        (error, results) => {
-            if (error) {
-                console.log(error);
-                return res.status(500).send('Error al eliminar el dato.');
-            }
-            res.status(200).send('Dato eliminado exitosamente.');
+//     connection.query(
+//         'DELETE FROM user_data WHERE user_id = ?',
+//         [dataId, userId],
+//         (error, results) => {
+//             if (error) {
+//                 console.log(error);
+//                 return res.status(500).send('Error al eliminar el dato.');
+//             }
+//             res.status(200).send('Dato eliminado exitosamente.');
+//         }
+//     );
+// });
+
+app.delete('/eliminar-dato/:userId', authController.isAuthenticated, async (req, res) => {
+    const userId = req.params.userId;
+
+    const query = 'DELETE FROM user_data WHERE user_id = ?';
+    connection.query(query, [userId], (err, results) => {
+        if (err) {
+            console.error('Error al eliminar el dato:', err);
+            return res.status(500).send('Error al eliminar el dato');
         }
-    );
+
+        res.sendStatus(204); // No Content
+    });
 });
+
   
 // ELIMINAR DATOS DE "misdatos"
 

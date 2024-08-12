@@ -8,24 +8,22 @@ const Vo2imgthink = "/public/assets/img (8).webp";
 function limitarNumero(input, maxLength) {
     if (input.value.length > maxLength) {
         input.value = input.value.slice(0, maxLength);
-        document.getElementById('errorMensaje').textContent = 'Máximo 3 dígitos permitidos.';
-        document.getElementById('errorMensajeTalla').textContent = 'Máximo 3 dígitos permitidos.';
-        document.getElementById('errorMensajePeso').textContent = 'Máximo 3 dígitos permitidos.';
-        document.getElementById('errorMensajeEdad').textContent = 'Máximo 2 dígitos permitidos.';
+        
         document.getElementById('errorMensajePPM').textContent = 'Máximo 3 dígitos permitidos.';
         document.getElementById('errorMensajeH').textContent = 'Máximo 2 dígitos permitidos.';
     } else {
-        document.getElementById('errorMensaje').textContent = '';
-        document.getElementById('errorMensajeTalla').textContent = '';
-        document.getElementById('errorMensajePeso').textContent = '';
-        document.getElementById('errorMensajeEdad').textContent = '';
+       
         document.getElementById('errorMensajePPM').textContent = '';
         document.getElementById('errorMensajeH').textContent = '';
     }
 }
 
+function eliminarEtiquetasHTML(texto) {
+    return texto.replace(/<\/?[^>]+(>|$)/g, "");
+  }
+  
 
-document.getElementById('vo2-form').addEventListener('submit', function (e) {
+document.getElementById('vo2-form').addEventListener('submit',async function (e) {
     e.preventDefault();
 
     let BPM = document.getElementById("BPM").value;
@@ -39,10 +37,16 @@ document.getElementById('vo2-form').addEventListener('submit', function (e) {
 
     let Mets = Vo2Max / 3.5;
 
+    
+
     document.getElementById("resultadoVo2").innerHTML = `${Vo2Max} ml/kg/min`;
     document.getElementById("numMets").innerHTML = `${Math.trunc(Mets)} `;
 
+    let vo2Final = document.getElementById("resultadoVo2").innerHTML = `${Vo2Max} ml/kg/min`;
+    let metsFinal = document.getElementById("numMets").innerHTML = `${Math.trunc(Mets)}`;
+
     let resultadoMets = '';
+    let errorMets = '';
 
 
     switch (true) {
@@ -72,13 +76,37 @@ document.getElementById('vo2-form').addEventListener('submit', function (e) {
     }
     document.getElementById("resultadoMets").innerHTML = resultadoMets;
     document.getElementById('resultVo2').innerHTML = resultadoMets;
+    const textoLimpioVo2 = eliminarEtiquetasHTML(vo2Final);
+    const textoLimpiomets = eliminarEtiquetasHTML(metsFinal);
+
+    console.log(vo2Final , metsFinal)
     document.getElementById("errorVo2").innerHTML = errorMets;
-    document.getElementById('generate-pdf').style.display = 'block';
+    // document.getElementById('generate-pdf').style.display = 'block';
+
+    try {
+        const response = await fetch('/guardar-datos', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ vo2: textoLimpioVo2, 
+                mets: textoLimpiomets
+                })
+        });
+    
+        if (response.ok) {
+            console.log('Datos vo2 enviados exitosamente');
+        } else {
+            console.error('Error al enviar los datos vo2');
+        }
+    } catch (error) {
+        console.error('Error en la solicitud:', error);
+    }
 });
 
 
 
-document.getElementById('expect-form').addEventListener('submit', function (e) {
+document.getElementById('expect-form').addEventListener('submit', async function (e) {
 
     e.preventDefault();
     // Toma los datos ingresados en la actividad fisica de la expectativa de vida
@@ -127,5 +155,23 @@ document.getElementById('expect-form').addEventListener('submit', function (e) {
 
     document.getElementById('resultExpect').innerHTML = resultadoExpectVida;
     // document.getElementById("errorExpect").innerHTML = errorExpect;
-    document.getElementById('generate-pdf').style.display = 'block';
+    // document.getElementById('generate-pdf').style.display = 'block';
+
+    try {
+        const response = await fetch('/guardar-datos', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ expect_vida: resultadoExpectVida })
+        });
+    
+        if (response.ok) {
+            console.log('Datos expect_vida enviados exitosamente');
+        } else {
+            console.error('Error al enviar los datos expect_vida');
+        }
+    } catch (error) {
+        console.error('Error en la solicitud:', error);
+    }
 });

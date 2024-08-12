@@ -1,3 +1,29 @@
+/**
+ * Envía los datos a la API para guardarlos en la base de datos.
+ * @param {Object} datos - Un objeto con los datos a enviar. Por ejemplo: { imc: 22.5 }
+ * @param {string} url - La URL del endpoint al que se enviarán los datos. Por ejemplo: '/guardar-datos'
+ * @param {string} [errorMessage='Error al guardar los datos.'] - Mensaje de error personalizado si la solicitud falla. Opcional.
+ * @returns {Promise<void>} - Una promesa que se resuelve cuando la solicitud se completa.
+ */
+async function guardarDatos(datos, url, errorMessage = 'Error al guardar los datos.') {
+  try {
+      const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(datos),
+      });
+
+      if (!response.ok) {
+          throw new Error(`${errorMessage}: ${response.statusText}`);
+      }
+
+      console.log('Datos guardados exitosamente.');
+  } catch (error) {
+      console.error('Error:', error);
+  }
+}
 
 // IMAGEMES IMC
 const imclow = '/public/assets/img (18).webp';
@@ -5,6 +31,7 @@ const imcOK = '/public/assets/img (14).webp';
 const imcBad = '/public/assets/img (16).webp';
 const imcError = '/public/assets/img (19).webp';
 // // IMAGENES IMC
+
 
 // // IMAGENES ICC
 const imagenMujerOk = '/public/assets/img (14).webp';
@@ -18,23 +45,13 @@ const iccimgError = '/public/assets/img (19).webp';
 function limitarNumero(input, maxLength) {
   if (input.value.length > maxLength) {
     input.value = input.value.slice(0, maxLength);
-    document.getElementById('errorMensaje').textContent = 'Máximo 3 dígitos permitidos.';
+    
     document.getElementById('errorMensajeTalla').textContent = 'Máximo 3 dígitos permitidos.';
-    document.getElementById('errorMensajePeso').textContent = 'Máximo 3 dígitos permitidos.';
-    document.getElementById('errorMensajeEdad').textContent = 'Máximo 2 dígitos permitidos.';
-    document.getElementById('errorMensajePPM').textContent = 'Máximo 3 dígitos permitidos.';
-    document.getElementById('errorMensajeH').textContent = 'Máximo 2 dígitos permitidos.';
   } else {
-    document.getElementById('errorMensaje').textContent = '';
     document.getElementById('errorMensajeTalla').textContent = '';
-    document.getElementById('errorMensajePeso').textContent = '';
-    document.getElementById('errorMensajeEdad').textContent = '';
-    document.getElementById('errorMensajePPM').textContent = '';
-    document.getElementById('errorMensajeH').textContent = '';
   }
 }
 // FIN LIMITAR NUMERO
-
 
 
 // calcula IMC
@@ -82,24 +99,22 @@ document.getElementById('imc-form').addEventListener('submit', async function (e
   // document.getElementById('generate-pdf').style.display = 'block';
 
   try {
-    const response = await fetch('/guardar-imc', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({  imc: formulaImc }),
+    const response = await fetch('/guardar-datos', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ imc: formulaImc})
     });
 
-    if (!response.ok) {
-      throw new Error('Error al guardar el resultado del IMC.');
+    if (response.ok) {
+        console.log('Datos IMC enviados exitosamente');
+    } else {
+        console.error('Error al enviar los datos IMC');
     }
-
-    console.log('Resultado del IMC guardado exitosamente.');
-  } catch (error) {
-    console.error('Error:', error);
-  }
-   
-
+} catch (error) {
+    console.error('Error en la solicitud:', error);
+}
 });
 
 // calcula ICC
@@ -150,24 +165,24 @@ document.getElementById('icc-form').addEventListener('submit',async function (e)
   document.getElementById('resultIcc').innerHTML = resultadoIcc;
   document.getElementById("errorIcc").innerHTML = errorIcc;
   // document.getElementById('generate-pdf').style.display = 'block';
-
+  
   try {
-    const response = await fetch('/guardar-imc', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({  icc: formulaIcc }),
+    const response = await fetch('/guardar-datos', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ icc: formulaIcc })
     });
 
-    if (!response.ok) {
-      throw new Error('Error al guardar el resultado del IMC.');
+    if (response.ok) {
+        console.log('Datos Icc enviados exitosamente');
+    } else {
+        console.error('Error al enviar los datos IMC');
     }
-
-    console.log('Resultado del ICC guardado exitosamente.');
-  } catch (error) {
-    console.error('Error:', error);
-  }
+} catch (error) {
+    console.error('Error en la solicitud:', error);
+}
   
 });
 
