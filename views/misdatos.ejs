@@ -21,7 +21,7 @@
         <main class="flex-grow-1 mt-5">
             <div class="container mt-3">
                 <section class="p-5">
-                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 mb-3 border-bottom">
                         <h2>Mis Datos</h2>
                         <h2>Bienvenid@:
                             <% if (user) { %>
@@ -33,73 +33,31 @@
                     </div>
                 </section>
 
-                <!-- <table class="table table-striped" id="tabla">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>IMC</th>
-                            <th>ICC</th>
-                            <th>Gasto Energético</th>
-                            <th>Carbohidratos</th>
-                            <th>Proteínas</th>
-                            <th>Grasas</th>
-                            <th>VO2</th>
-                            <th>METS</th>
-                            <th>Expectativa de Vida</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% if (datos.length > 0) { %>
-                            <% datos.forEach(function(dato) { %>
-                            <tr id="data-row">
-                                <td>1</td>
-                                <td><%= dato.imc %></td>
-                                <td><%= dato.icc %></td>
-                                <td><%= dato.gasto_energetico %></td>
-                                
-                                <td>
-                                    <button class="btn btn-danger btn-sm delete-btn" data-id="<%= datos[0].id %>">Eliminar</button>
-                                </td>
-                            </tr>
-                            <% }); %>
-                            <% } else { %>
-                                <tr>
-                                    <td colspan="2" class="text-center">No hay datos disponibles.</td>
-                                </tr>
-                            <% } %>
-                    </tbody>
-                </table> -->
-
-
-               
-                <h1 class="my-4">Mis Datos</h1>
                 <table class="table table-striped" id="misdatos_table">
                     <thead>
-                    
-                        <tr>
-                            <th>IMC</th>
-                            <th>ICC</th>
-                            <th>Gasto Energético</th>
-                            <th>Macronutrientes</th>
-                            <th>VO2</th>
-                            <th>METS</th>
-                            <th>Expect Vida</th>
-                            <th>Acciones</th>
+                        <tr class="text-center">
+                            <th class="p-3">IMC</th>
+                            <th class="p-3">ICC</th>
+                            <th class="p-3">GET</th>
+                            <th class="p-3">Macronutrientes</th>
+                            <th class="p-3">VO2</th>
+                            <th class="p-3">METS</th>
+                            <th class="p-3">Expect Vida</th>
+                            <th class="p-3">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         <% if (Object.keys(datos).length > 0) { %>
-                        <tr>
-                            <td><%= datos.imc %></td>
-                            <td><%= datos.icc %></td>
-                            <td><%= datos.gasto_energetico %></td>
-                            <td><%= datos.macro %></td>
-                            <td><%= datos.vo2 %></td>
-                            <td><%= datos.mets %></td>
-                            <td><%= datos.expect_vida %></td>
-                            <td>
-                                <button class="btn btn-danger btn-eliminar" data-id="<%= datos.user_id  %>">Eliminar</button>
+                        <tr class="text-center">
+                            <td class="p-3"><%= datos.imc %></td>
+                            <td class="p-3"><%= datos.icc %></td>
+                            <td class="p-3 text-start"><%= datos.gasto_energetico %></td>
+                            <td class="p-3 text-start"><%= datos.macro %></td>
+                            <td class="p-3"><%= datos.vo2 %></td>
+                            <td class="p-3"><%= datos.mets %></td>
+                            <td class="p-3"><%= datos.expect_vida %></td>
+                            <td class="p-3">
+                                <button class="btn btn-danger btn-eliminar btn-sm" data-id="<%= datos.user_id  %>">Eliminar</button>
                             </td>
                         </tr>
                         <% } else { %>
@@ -111,10 +69,8 @@
 
                 </table>
                 
-               
-
-                <div class="p-3">
-                    <a class="btn btn-primary" href="/generar-pdf" target="_blank">Generar PDF</a>
+                <div class="p-3 text-center">
+                    <a class="btn btn-primary btn-lg" href="/generar-pdf" target="_blank">Generar PDF</a>
                 </div>
 
                 <%- include('footer', { user: user }) %>
