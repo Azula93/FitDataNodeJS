@@ -1,54 +1,42 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const eliminarBtns = document.querySelectorAll('.btn-eliminar');
+    document.querySelectorAll('.btn-eliminar').forEach(button => {
+        button.addEventListener('click', function(event) {
+            event.preventDefault();
+            const userId = this.getAttribute('data-id');
 
-    eliminarBtns.forEach(btn => {
-        btn.addEventListener('click', async (event) => {
-            const userId = event.target.getAttribute('data-id');
-
-            const result = await Swal.fire({
+            Swal.fire({
                 title: '¿Estás seguro?',
-                text: '¡Este dato será eliminado!',
+                text: "¡No podrás revertir esto!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Sí, eliminar',
-                cancelButtonText: 'Cancelar'
-            });
-
-            if (result.isConfirmed) {
-                try {
-                    const response = await fetch(`/eliminar-dato/${userId}`, {
-                        method: 'DELETE',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-Requested-With': 'XMLHttpRequest'
-                        }
-                    });
-
-                    if (response.ok) {
+                confirmButtonText: 'Sí, eliminarlo!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch(`/eliminar-dato/${userId}`, {
+                        method: 'DELETE'
+                    })
+                    .then(response => response.text())
+                    .then(result => {
                         Swal.fire(
-                            'Eliminado',
+                            'Eliminado!',
                             'El dato ha sido eliminado.',
                             'success'
-                        ).then(() => {
-                            location.reload();
-                        });
-                    } else {
+                        );
+                        // Actualiza la UI para reflejar la eliminación
+                        document.getElementById(`data-row-${userId}`).remove();
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
                         Swal.fire(
-                            'Error',
-                            'No se pudo eliminar el dato.',
+                            'Error!',
+                            'Hubo un problema al eliminar el dato.',
                             'error'
                         );
-                    }
-                } catch (error) {
-                    Swal.fire(
-                        'Error',
-                        'Ocurrió un error al eliminar el dato.',
-                        'error'
-                    );
+                    });
                 }
-            }
+            });
         });
     });
 });

@@ -62,38 +62,29 @@ app.post('/guardar-datos', authController.isAuthenticated,(req, res) => {
 
 
 // ELIMINAR DATOS DE "misdatos"
-// app.delete('/eliminar-dato/:user_id', authController.isAuthenticated, (req, res) => {
-//     const userId = req.user.user_id;
-//     const dataId = req.params.user_id;
+app.delete('/eliminar-dato/:id', authController.isAuthenticated, (req, res) => {
+    const userId = req.params.id;
 
-//     connection.query(
-//         'DELETE FROM user_data WHERE user_id = ?',
-//         [dataId, userId],
-//         (error, results) => {
-//             if (error) {
-//                 console.log(error);
-//                 return res.status(500).send('Error al eliminar el dato.');
-//             }
-//             res.status(200).send('Dato eliminado exitosamente.');
-//         }
-//     );
-// });
+    connection.query(
+        'DELETE FROM user_data WHERE user_id = ?',
+        [userId],
+        (error, results) => {
+            if (error) {
+                console.log(error);
+                return res.status(500).send('Error al eliminar el dato.');
+            }
 
-app.delete('/eliminar-dato/:userId', authController.isAuthenticated, async (req, res) => {
-    const userId = req.params.userId;
+            // Verifica cuántas filas han sido afectadas
+            console.log(`Filas afectadas: ${results.affectedRows}`);
 
-    const query = 'DELETE FROM user_data WHERE user_id = ?';
-    connection.query(query, [userId], (err, results) => {
-        if (err) {
-            console.error('Error al eliminar el dato:', err);
-            return res.status(500).send('Error al eliminar el dato');
+            if (results.affectedRows === 0) {
+                return res.status(404).send('Dato no encontrado.');
+            }
+
+            res.status(200).send('Dato eliminado exitosamente.');
         }
-
-        res.sendStatus(204); // No Content
-    });
+    );
 });
-
-  
 // ELIMINAR DATOS DE "misdatos"
 
 

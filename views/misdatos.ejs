@@ -50,7 +50,7 @@
                             </thead>
                             <tbody class="table-group-divider">
                                 <% if (Object.keys(datos).length> 0) { %>
-                                    <tr class="text-center">
+                                    <tr class="text-center" id="data-row-<%= datos.user_id %>">
                                         <td class="p-3">
                                             <%= datos.imc %>
                                         </td>
@@ -73,8 +73,7 @@
                                             <%= datos.expect_vida %>
                                         </td>
                                         <td class="p-3">
-                                            <button class="btn btn-danger btn-eliminar btn-sm"
-                                                data-id="<%= datos.user_id  %>">Eliminar</button>
+                                            <button class="btn btn-danger btn-eliminar btn-sm" data-id="<%= datos.user_id %>">Eliminar</button>
                                         </td>
                                     </tr>
                                     <% } else { %>
