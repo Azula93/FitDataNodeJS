@@ -64,8 +64,8 @@
                                 <div class="">
                                     <label class="form-label" for="peso"><b>Peso en Kg:</b></label>
                                     <input class="form-control form-control-lg" type="number" id="peso"
-                                        placeholder="Ej. 60kg" min="2" maxlength="2" pattern="^[0-9]+"
-                                        oninput="limitarNumero(this, 2)">
+                                        placeholder="Ej. 60kg" min="2" maxlength="3" pattern="^[0-9]+"
+                                        oninput="limitarNumero(this, 3)">
                                     <p id="errorMensajePeso" style="color: crimson;"></p>
                                 </div>
                                 <div class="">
@@ -90,22 +90,22 @@
                                         <div class="form-check p-3">
                                             <input class="form-check-input" type="radio" name="factorActividad"
                                                 value="Menos de 3 horas semanales">
-                                            <label class="fs-5  form-check-label">Menos de 3 horas semanales</label>
+                                            <label class="fs-5  form-check-label"><b>2</b> horas semanales <b>(Inactivo)</b></label>
                                         </div>
                                         <div class="form-check p-3">
                                             <input class="form-check-input" type="radio" name="factorActividad"
                                                 value="3 Horas semanales">
-                                            <label class="fs-5 form-check-label">3 Horas semanales</label>
+                                            <label class="fs-5 form-check-label"><b>3</b> Horas semanales <b>(Regularmente Activo)</b></label>
                                         </div>
                                         <div class="form-check p-3">
                                             <input class="form-check-input" type="radio" name="factorActividad"
-                                                value="6 Horas semanales">
-                                            <label class="fs-5 form-check-label">6 Horas semanales</label>
+                                                value="6 Horas semanales"> 
+                                            <label class="fs-5 form-check-label"><b>6</b> Horas semanales <b>(Activo)</b></label>
                                         </div>
                                         <div class="form-check p-3">
                                             <input class="form-check-input" type="radio" name="factorActividad"
                                                 value="4-5 horas Diarias">
-                                            <label class="fs-5 form-check-label">4-5 horas Diarias</label>
+                                            <label class="fs-5 form-check-label">Mas de <b>25</b> horas Semanales <b>(Deportistas Alto Rendimiento)</b></label>
                                         </div>
                                     </section>
                                 </section>

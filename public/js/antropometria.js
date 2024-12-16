@@ -19,9 +19,16 @@ function limitarNumero(input, maxLength) {
   if (input.value.length > maxLength) {
     input.value = input.value.slice(0, maxLength);
     
-    document.getElementById('errorMensajeTalla').textContent = 'Máximo 3 dígitos permitidos.';
+    document.getElementById('errorMensajePeso').textContent = 'Máximo 3 dígitos permitidos.';
+    document.getElementById('errorMensajeAltura').textContent = 'Máximo 3 dígitos permitidos.';
+    document.getElementById('errorMensajePcintura').textContent = 'Máximo 3 dígitos permitidos.';
+    document.getElementById('errorMensajePcadera').textContent = 'Máximo 3 dígitos permitidos.';
   } else {
-    document.getElementById('errorMensajeTalla').textContent = '';
+    document.getElementById('errorMensajePeso').textContent = '';
+    document.getElementById('errorMensajeAltura').textContent = '';
+    document.getElementById('errorMensajePcintura').textContent = '';
+    document.getElementById('errorMensajePcadera').textContent = '';
+
   }
 }
 // FIN LIMITAR NUMERO

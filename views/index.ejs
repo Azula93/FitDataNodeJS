@@ -33,13 +33,17 @@
                             <div class="mb-3 col">
                                 <label for="talla" class="form-label">Altura (m)</label>
                                 <input type="number" id="talla" class="form-control" step="0.01" placeholder="1.65m"
-                                    name="talla" pattern="\d{1,3}" required>
-                                <div id="errorMensajeTalla" class="error-message"></div>
+                                    name="talla"  min="2" maxlength="3" pattern="^[0-9]+"
+                                    oninput="limitarNumero(this, 3)" required> 
+                                    <!-- pattern="\d{1,3}" -->
+                                    <p id="errorMensajeAltura" style="color: crimson;"></p>
                             </div>
 
                             <div class="mb-3 col">
                                 <label for="peso" class="form-label col">Peso (kg)</label>
-                                <input type="number" id="peso" class="form-control" placeholder="70kg" required>
+                                <input type="number" id="peso" class="form-control" placeholder="70kg" min="2" maxlength="3" pattern="^[0-9]+"
+                                oninput="limitarNumero(this, 3)" required>
+                                <p id="errorMensajePeso" style="color: crimson;"></p>
                             </div>
                         </div>
 
@@ -85,13 +89,16 @@
                         <div class="row g-3 m-3">
                             <div class="mb-3 col">
                                 <label for="cintura" class="form-label fs-4">Perimetro Cintura (cm)</label>
-                                <input type="number" id="cintura" class="form-control" placeholder="60cm" min="2"
+                                <input type="number" id="cintura" class="form-control" placeholder="60cm" min="2" maxlength="3" pattern="^[0-9]+"
+                                oninput="limitarNumero(this, 3)"
                                     required>
+                                    <p id="errorMensajePcintura" style="color: crimson;"></p>
                             </div>
                             <div class="mb-3 col">
                                 <label for="cadera" class="form-label fs-4">Perimetro Cadera (cm)</label>
-                                <input type="number" id="cadera" class="form-control" min="1" maxlength="3"
-                                    pattern="[0-9]+" placeholder="92cm" min="2" required>
+                                <input type="number" id="cadera" class="form-control" placeholder="92cm"  min="2" maxlength="3" pattern="^[0-9]+"
+                                oninput="limitarNumero(this, 3)" required>
+                                <p id="errorMensajePcadera" style="color: crimson;"></p>
                             </div>
                         </div>
 
