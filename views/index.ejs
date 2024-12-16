@@ -33,8 +33,8 @@
                             <div class="mb-3 col">
                                 <label for="talla" class="form-label">Altura (m)</label>
                                 <input type="number" id="talla" class="form-control" step="0.01" placeholder="1.65m"
-                                    name="talla"  min="2" maxlength="3" pattern="^[0-9]+"
-                                    oninput="limitarNumero(this, 3)" required> 
+                                    name="talla"  maxlength="4" pattern="^[0-9]+"
+                                    oninput="limitarNumero(this, 4)" required> 
                                     <!-- pattern="\d{1,3}" -->
                                     <p id="errorMensajeAltura" style="color: crimson;"></p>
                             </div>
