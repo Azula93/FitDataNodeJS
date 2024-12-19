@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="/public/css/signin.css" rel="stylesheet">
+    <link href="/public/css/styles.css" rel="stylesheet">
+<link rel="icon" href="/public/assets/favicons/favicon-removebg.png" type="image/x-icon">
+    <title>Valoración Nutricional</title>
+</head>
+
+<body>
+    <div class="container-fluid d-flex flex-column min-vh-100" id="get">
+        
+    <nav class="fixed-top navbar navbar-expand-lg navbar-light bg-light fs-5">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">FitData</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+                aria-controls="offcanvasNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
+                aria-labelledby="offcanvasNavbarLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel">FitData</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav mx-auto mb-2 mb-lg-0 ">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/">Inicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/valoracion">Valoración Nutricional</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/pruebaEsfuerzo">Prueba de Esfuerzo</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/blog">Blog</a>
+                        </li>
+                    </ul>
+
+                    <div class="d-flex">
+                        <a class="btn btn-outline-primary me-2 fs-5" type="button" href="/login">Inicia Sesión</a>
+                        <a class="btn btn-primary fs-5" type="button" href="/register">Registrate</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    
+            <main class="flex-grow-1 mt-5">
+                <div class="container mt-3">
+                    <section class="">
+                        <h1 class="fs-1 text-center p-3" style="color: #137a8b">¿Qué es el GET?</h1>
+                        <p class="fs-4 p-4"> El gasto energético total (GET) representa la cantidad total de energía que
+                            una
+                            persona consume en un día promedio. Este valor es crucial porque <b>indica</b> cuántas
+                            <b>calorías</b> debe
+                            <b>ingerir</b> una persona <b>diariamente</b> para mantener su peso actual, perder peso
+                            o ganar peso,<b>según sus objetivos.</b> Comprender el GET es fundamental para diseñar
+                            dietas y programas
+                            de ejercicio que ayuden a alcanzar metas de salud y condición física.
+                        </p>
+                    </section>
+
+                    <section class="">
+                        <h2 class="fs-1 text-center pt-3" style="color: #0db7c4">Calcula tu GET</h2>
+                        <p class="fs-4 text-center p-4">Para calcular tu GET ingresa los siguientes datos:
+                        </p>
+                    </section>
+
+                    <form id="get-form" class="row ms-5 p-3 rounded" action="" method="" autocomplete="off">
+                        <div class="col-md-6">
+                            <section class="">
+
+                                <p class="text-start fs-4"><b>Selecciona tu Sexo:</b></p>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="genero" value="mujer">
+                                    <label class="form-check-label fs-4">Femenino</label>
+                                </div>
+
+                                <div class="form-check pb-3 pt-2">
+                                    <input class="form-check-input" type="radio" name="genero" value="hombre">
+                                    <label class="form-check-label fs-4">Masculino</label>
+                                </div>
+
+                            </section>
+
+                            <section class="fs-4">
+                                <div class="">
+                                    <label class="form-label" for="talla"><b>Talla en Cm:</b></label>
+                                    <input class="form-control form-control-lg" type="number" id="talla"
+                                        placeholder="Ej. 170cm" min="2" maxlength="3" pattern="^[0-9]+"
+                                        oninput="limitarNumero(this, 3)">
+                                    <p id="errorMensajeTalla" style="color: crimson;"></p>
+                                </div>
+                                <div class="">
+                                    <label class="form-label" for="peso"><b>Peso en Kg:</b></label>
+                                    <input class="form-control form-control-lg" type="number" id="peso"
+                                        placeholder="Ej. 60kg" min="2" maxlength="3" pattern="^[0-9]+"
+                                        oninput="limitarNumero(this, 3)">
+                                    <p id="errorMensajePeso" style="color: crimson;"></p>
+                                </div>
+                                <div class="">
+                                    <label class="form-label" for="edad"><b>Edad en años:</b></label>
+                                    <input class="form-control form-control-lg" type="number" id="edad"
+                                        placeholder="Ej. 25" min="1" maxlength="2" pattern="^[0-9]+"
+                                        oninput="limitarNumero(this, 2)">
+                                    <p id="errorMensajeEdad" style="color: crimson;"></p>
+                                </div>
+                            </section>
+                        </div>
+
+                        <div class="col-md-6 ps-5">
+                            <section class="">
+                                <h2 class="fs-4 text-start fw-bold">Factor de la actividad Física</h2>
+                                <section class="">
+                                    <p class="fs-5 ">De las siguientes opciones elige cuántas
+                                        veces
+                                        por
+                                        semana practicas deporte y/o actividad física</p>
+                                    <section class="">
+                                        <div class="form-check p-3">
+                                            <input class="form-check-input" type="radio" name="factorActividad"
+                                                value="Menos de 3 horas semanales">
+                                            <label class="fs-5  form-check-label"><b>2</b> horas semanales <b>(Inactivo)</b></label>
+                                        </div>
+                                        <div class="form-check p-3">
+                                            <input class="form-check-input" type="radio" name="factorActividad"
+                                                value="3 Horas semanales">
+                                            <label class="fs-5 form-check-label"><b>3</b> Horas semanales <b>(Regularmente Activo)</b></label>
+                                        </div>
+                                        <div class="form-check p-3">
+                                            <input class="form-check-input" type="radio" name="factorActividad"
+                                                value="6 Horas semanales">
+                                            <label class="fs-5 form-check-label"><b>6</b> Horas semanales <b>(Activo)</b></label>
+                                        </div>
+                                        <div class="form-check p-3">
+                                            <input class="form-check-input" type="radio" name="factorActividad"
+                                                value="4-5 horas Diarias">
+                                            <label class="fs-5 form-check-label">Mas de <b>25</b> horas Semanales <b>(Deportistas Alto Rendimiento)</b></label>
+                                        </div>
+                                    </section>
+                                </section>
+                            </section>
+                        </div>
+
+                        <div class="col ms-4 rounded">
+                            <span>
+                                <p></p> <!-- en este 👈 parrafo se dibuja el error desde JS -->
+                                <p id="opcionSeleccionada"></p>
+                                <div class="lh-lg col text-center fs-2" id="resultGet"></div>
+                                <p id="errorGet"></p>
+                            </span>
+                        </div>
+
+                        <div class="text-center pt-3">
+                            <button type="submit" class="btn btn-primary fs-4" id="mostrarSeleccion">Calcular
+                                GET</button>
+                        </div>
+                    </form>
+                    <hr class="my-4 border border-primary">
+
+                    <section class="mt-5">
+                        <h2 class="text-center p-3 fs-1" style="color: #0db7c4">Requerimiento de Macronutrientes Diario
+                        </h2>
+                        <p class="fs-4 lh-base p-3"> Ahora que conoces tu GET podrás calcular tu requerimiento
+                            de macronutrientes diario en gramos, distribuidos en: carbohidratos, proteinas y grasas.
+                            <br>Selecciona una de las siguientes opciones según sea tu caso:
+                        </p>
+                        <form id="macro-form" action="" class="row ms-5 p-3 rounded" method="" autocomplete="off">
+
+                            <section class="d-flex justify-content-center">
+
+                                <div class="form-check d-inline-block me-5 ">
+                                    <input class="form-check-input" type="radio" name="Deportista" value="Deportista">
+                                    <label class="fs-4 form-check-label">Deportista</label>
+                                </div>
+
+                                <div class="form-check d-inline-block me-3">
+                                    <input class="form-check-input" type="radio" name="Deportista"
+                                        value="No deportista">
+                                    <label class="fs-4 form-check-label">No deportista</label>
+                                </div>
+                            </section>
+
+                            <div class="col ms-4 rounded">
+                                <span>
+                                    <p></p> <!-- en este 👈 parrafo se dibuja el error desde JS -->
+                                    <p class="" id="opcionSeleccionada"></p>
+                                    <div class="lh-lg col text-center fs-2" id="resultMacro"></div>
+                                    <p id="errorMacro"></p>
+                                </span>
+                            </div>
+
+                            <div class="text-center p-3">
+                                <button type="submit" class="btn btn-primary fs-4">Calcular Macronutrientes</button>
+                            </div>
+                        </form>
+
+                        <hr class="my-4 border border-primary">
+
+                        <section class="">
+                            <p class="p-3 text-center fs-4">En este 👉 <a class="fs-4 text-primary"
+                                    href="/blog">LINK</a> podrás obtener más información acerca de los alimentos que
+                                puedes consumir en tu dieta 🥕 </p>
+                        </section>
+                    </section>
+                    </section>
+
+                    <!-- Botón "Volver arriba" -->
+                    <section class="scroll">
+                        <a id="scroll-to-top" href="#" class="back-to-top" role="button">
+                            <i class="bi bi-arrow-up-circle-fill"></i></a>
+                    </section>
+                </div>
+            </main>
+            <footer class="bg-light text-center text-lg-start mt-auto">
+    <div class="container p-4">
+        <div class="row">
+            <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
+                <h5 class="">FitData</h5>
+                <p>Te brindamos los datos que necesitas para mejorar tu salud y bienestar. Creemos en la
+                    importancia de entender tus medidas corporales para tomar decisiones informadas sobre tu
+                    estilo de vida y dieta.</p>
+            </div>
+            <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
+                <h5 class="text-uppercase">Navegación</h5>
+                <ul class="list-unstyled mb-0 footer-links">
+                    
+                        <li><a href="/panelcontrol" class="text-dark text-decoration-none">Inicio</a></li>
+                        <li><a href="/valoracion" class="text-dark text-decoration-none">Valoración Nutricional</a></li>
+                        <li><a href="/pruebaEsfuerzo" class="text-dark text-decoration-none">Prueba de Esfuerzo</a></li>
+                        <li><a href="/blog" class="text-dark text-decoration-none">Blog</a></li>
+                    
+                </ul>
+            </div>
+            <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
+                <h5 class="text-uppercase">Acerca de Nosotros</h5>
+                <ul class="list-unstyled mb-0 footer-links">
+                    <li><a href="#!" class="text-dark text-decoration-none">¿Quienes somos?</a></li>
+                    <li><a href="#!" class="text-dark text-decoration-none">Politica de Privacidad</a></li>
+                    <li><a href="#!" class="text-dark text-decoration-none">Politica de cookies</a></li>
+                    <li><a href="#!" class="text-dark text-decoration-none">Ayuda</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
+                <h5 class="text-uppercase">Contactanos</h5>
+                <ul class="list-unstyled footer-links">
+                    <li><a href="#!" class="text-dark text-decoration-none">Dirección</a></li>
+                    <li><a href="mailto:azuladev@gmail.com" class="text-dark text-decoration-none">info@fitdata.com</a>
+                    </li>
+                    <li><a href="tel:3183348608" class="text-dark text-decoration-none">Teléfono</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center p-3 bg-dark text-white d-flex align-items-center justify-content-center">
+        <ul class="list-unstyled list-inline footer-links">
+            <li class="list-inline-item">
+                <a href="#" class="text-light enlace text-decoration-none">
+                    © FitData 2024.
+                </a>
+            </li>
+
+            <li class="list-inline-item">
+                <a href="#" class="text-light enlace ">
+                    <i class="fab fa-facebook icono"></i>
+                </a>
+            </li>
+
+            <li class="list-inline-item">
+                <a href="#" class="text-light enlace">
+                    <i class="fab fa-instagram icono"></i>
+                </a>
+            </li>
+
+            <li class="list-inline-item">
+                <a href="#" class="text-light enlace">
+                    <i class="fab fa-youtube icono"></i>
+                </a>
+            </li>
+
+            <li class="list-inline-item">
+                <a href="#" class="text-light enlace">
+                    <i class="fab fa-twitter icono"></i>
+                </a>
+            </li>
+        </ul>
+    </div>
+</footer>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/52b9ec387c.js" crossorigin="anonymous"></script>
+    <script src="/public/js/valnut.js"></script>
+
+
+</body>
+
+</html>

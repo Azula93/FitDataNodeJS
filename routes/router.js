@@ -41,6 +41,22 @@ router.get('/blog', authController.isAuthenticated, (req, res) => {
 router.get('/formularios', authController.isAuthenticated, (req, res) => {
     res.render('formularios', { user: req.user })
 })
+
+router.get('/aboutUs', authController.isAuthenticated, (req, res) => {
+    res.render('aboutUs', { user: req.user })
+})
+
+router.get('/privacyPolicy', authController.isAuthenticated, (req, res) => {
+    res.render('privacyPolicy', { user: req.user })
+})
+
+router.get('/politica-de-cookies', authController.isAuthenticated, (req, res) => {
+    res.render('politica-de-cookies', { user: req.user })
+})
+
+router.get('/avisoLegal', authController.isAuthenticated, (req, res) => {
+    res.render('avisoLegal', { user: req.user })
+})
 // router para las vistas
 
 
