@@ -14,6 +14,71 @@ const imagenHombreBad = '/public/assets/img (17).webp';
 const iccimgError = '/public/assets/img (19).webp';
 // // IMAGENES ICC
 
+// *********************ALERTA- RELACION IMC-ICC******************************************************************
+// Variables para almacenar los valores de los elementos
+let formulaImc = null;
+let formulaIcc = null;
+let Generoseleccionado = null;
+
+// Función para obtener valores de los elementos por sus IDs
+function obtenerValores() {
+  // Obtener los valores de los inputs por sus IDs
+  const peso = parseFloat(document.getElementById('peso').value);
+  const talla = parseFloat(document.getElementById('talla').value);
+  const cintura = parseFloat(document.getElementById('cintura').value);
+  const cadera = parseFloat(document.getElementById('cadera').value);
+
+  // Calcular el IMC
+  formulaImc = (peso / (talla * talla)).toFixed(2);
+
+  // Calcular el ICC
+  formulaIcc = (cintura / cadera).toFixed(2);
+
+  // Obtener el género seleccionado
+  const opciones = document.getElementsByName("genero");
+  for (const opcion of opciones) {
+    if (opcion.checked) {
+      Generoseleccionado = opcion.value;
+      break;
+    }
+  }
+
+  // Mostrar los resultados en la consola para verificar
+  // console.log(`IMC: ${formulaImc}, ICC: ${formulaIcc}, Género: ${Generoseleccionado}`);
+  
+  // Verificar la condición y mostrar la alerta si corresponde
+  verificarCondicionYMostrarAlerta();
+}
+
+// Función para verificar la condición y mostrar la alerta
+function verificarCondicionYMostrarAlerta() {
+
+  
+    if (formulaImc !== null && formulaIcc !== null && Generoseleccionado !== null) {
+      // Condición para mujeres: ICC > 0.85
+      if (Generoseleccionado === "mujer" && formulaIcc > 0.85) {
+          Swal.fire({
+              icon: 'warning',
+              title: 'Atención',
+              html: `Tu IMC e ICC son altos, esto <b>sugiere</b> no solo un exceso de peso en relación con tu altura, sino también una distribución de grasa en el área abdominal, <b>consulta</b> a un profesional para una evaluación y orientación. Tu IMC es ${formulaImc}.`,
+          });
+      }
+      // Condición para hombres: ICC > 0.94
+      else if (Generoseleccionado === "hombre" && formulaIcc > 0.94) {
+          Swal.fire({
+              icon: 'warning',
+              title: 'Atención',
+              html: `Tu IMC e ICC son altos, esto <b>sugiere</b> no solo un exceso de peso en relación con tu altura, sino también una distribución de grasa en el área abdominal, <b>consulta</b> a un profesional para una evaluación y orientación. Tu IMC es ${formulaImc}.`,
+          });
+      } else {
+          console.log('ICC en rango normal');
+      }
+  }
+}
+// *********************ALERTA- RELACION IMC-ICC******************************************************************
+
+
+
 // LIMITAR NUMERO
 function limitarNumero(input, maxLength) {
   if (input.value.length > maxLength) {
@@ -32,6 +97,7 @@ function limitarNumero(input, maxLength) {
   }
 }
 // FIN LIMITAR NUMERO
+
 
 // FUNCIONES PARA FILTRAR TEXTO PARA LA TABLA MIS DATOS
 function filtrarYLimpiarTextoImc(texto) {
@@ -77,6 +143,7 @@ function filtrarYLimpiarTextoIcc(texto) {
 // calcula IMC
 document.getElementById('imc-form').addEventListener('submit', async function (e) {
   e.preventDefault();
+  obtenerValores();
   const peso = parseFloat(document.getElementById('peso').value);
   const talla = parseFloat(document.getElementById('talla').value);
   const formulaImc = (peso / (talla * talla)).toFixed(2);
@@ -118,6 +185,22 @@ document.getElementById('imc-form').addEventListener('submit', async function (e
   document.getElementById("errorImc").innerHTML = errorImc;
   const textoLimpioImc = filtrarYLimpiarTextoImc(resultImc);
 
+
+  if (formulaImc >= 25 && formulaImc <= 29.9) {
+    Swal.fire({
+      icon: 'info',
+      title: 'Atención',
+      text: 'Tu peso es mayor al esperado para tu talla, necesitas mas pruebas para determinar si el excedente es grasa 🧈 o músculo💪',
+    });
+  } else if (formulaImc >= 30 && formulaImc <= 40){
+    Swal.fire({
+      icon: 'warning',
+      title: 'Atención',
+      html: `Tu resultado indica obesidad. Sin embargo, el IMC <b>NO</b> muestra dónde se encuentra la grasa corporal. Se recomienda consultar a un profesional de la salud para confirmar este resultado.`,
+    });
+  }
+ 
+
   try {
     const response = await fetch('/guardar-datos', {
         method: 'POST',
@@ -135,13 +218,14 @@ document.getElementById('imc-form').addEventListener('submit', async function (e
 } catch (error) {
     console.error('Error en la solicitud:', error);
 }
-});
 
+
+});
 
 // calcula ICC
 document.getElementById('icc-form').addEventListener('submit',async function (e) {
   e.preventDefault();
-
+  obtenerValores();
   //  Toma los datos ingresados en el genero
   const opciones = document.getElementsByName("genero");
   let Generoseleccionado = "";
@@ -186,6 +270,7 @@ document.getElementById('icc-form').addEventListener('submit',async function (e)
   document.getElementById('resultIcc').innerHTML = resultadoIcc;
   document.getElementById("errorIcc").innerHTML = errorIcc;
   const textoLimpioIcc = filtrarYLimpiarTextoIcc(resultadoIcc);
+  
 
   
   try {
@@ -205,7 +290,7 @@ document.getElementById('icc-form').addEventListener('submit',async function (e)
 } catch (error) {
     console.error('Error en la solicitud:', error);
 }
-  
+
 });
 
 

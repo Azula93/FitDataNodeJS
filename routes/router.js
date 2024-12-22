@@ -59,7 +59,7 @@ router.get('/avisoLegal', authController.isAuthenticated, (req, res) => {
 })
 // router para las vistas
 
-
+// router para los metodos del controller
 router.get('/misdatos',authController.isAuthenticated, (req, res) => {
     const userId = req.user.id;
 
