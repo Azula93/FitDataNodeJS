@@ -18,29 +18,31 @@
             <main class="flex-grow-1 mt-5">
                 <div class="container mt-3">
                     <section class="">
-                        <h1 class="fs-1 text-center p-3" style="color: #137a8b">¿Qué es el GET?</h1>
-                        <p class="fs-4 p-4"> El gasto energético total (GET) representa la cantidad total de energía que
-                            una
-                            persona consume en un día promedio. Este valor es crucial porque <b>indica</b> cuántas
-                            <b>calorías</b> debe
-                            <b>ingerir</b> una persona <b>diariamente</b> para mantener su peso actual, perder peso
-                            o ganar peso,<b>según sus objetivos.</b> Comprender el GET es fundamental para diseñar
-                            dietas y programas
-                            de ejercicio que ayuden a alcanzar metas de salud y condición física.
+                        <h1 class="fs-1 text-center p-3" style="color: #137a8b">¿Qué es el Gasto Energético Total (GET)?
+                        </h1>
+                        <p class="fs-4 p-4"> Es la cantidad total de energía que una persona consume en un día promedio.
+                            Este valor es esencial para entender cuántas <strong>calorías</strong> necesita consumir
+                            diariamente una persona para
+                            mantener, ganar o perder peso, según sus objetivos. Conocer el GET es clave para diseñar
+                            <strong>dietas personalizadas</strong>
+                            y programas de ejercicio efectivos, contribuyendo a mejorar la salud y alcanzar metas de
+                            condición física.
                         </p>
                     </section>
 
                     <section class="">
-                        <h2 class="fs-1 text-center pt-3" style="color: #0db7c4">Calcula tu GET</h2>
-                        <p class="fs-4 text-center p-4">Para calcular tu GET ingresa los siguientes datos:
+                        <h2 class="fs-1 text-center pt-3" style="color: #0db7c4">Calcula tu Gasto Energético Total (GET)
+                        </h2>
+                        <p class="fs-4 text-center p-4">Completa los siguientes campos para calcular tu GET y conocer
+                            cuántas calorías necesitas diariamente:
                         </p>
                     </section>
 
                     <form id="get-form" class="row ms-5 p-3 rounded" action="" method="" autocomplete="off">
                         <div class="col-md-6">
-                            <section class="">
+                            <fieldset class="">
 
-                                <p class="text-start fs-4"><b>Selecciona tu Sexo:</b></p>
+                                <legend class="text-start fs-4"><b>Selecciona tu Sexo:</b></legend>
 
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="genero" value="mujer">
@@ -52,11 +54,12 @@
                                     <label class="form-check-label fs-4">Masculino</label>
                                 </div>
 
-                            </section>
+                            </fieldset>
 
-                            <section class="fs-4">
+                            <fieldset class="fs-4">
+                                <legend class="fs-4 mb-3"><strong>Datos personales:</strong></legend>
                                 <div class="">
-                                    <label class="form-label" for="talla"><b>Talla en Cm:</b></label>
+                                    <label class="form-label" for="talla"><b>Altura en cm:</b></label>
                                     <input class="form-control form-control-lg" type="number" id="talla"
                                         placeholder="Ej. 170cm" min="2" maxlength="3" pattern="^[0-9]+"
                                         oninput="limitarNumero(this, 3)">
@@ -76,41 +79,43 @@
                                         oninput="limitarNumero(this, 2)">
                                     <p id="errorMensajeEdad" style="color: crimson;"></p>
                                 </div>
-                            </section>
+                            </fieldset>
                         </div>
 
                         <div class="col-md-6 ps-5">
-                            <section class="">
-                                <h2 class="fs-4 text-start fw-bold">Factor de la actividad Física</h2>
+                            <fieldset>
+                                <legend class="fs-4 text-start fw-bold">Factor de actividad Física</legend>
                                 <section class="">
-                                    <p class="fs-5 ">De las siguientes opciones elige cuántas
-                                        veces
-                                        por
-                                        semana practicas deporte y/o actividad física</p>
+                                    <p class="fs-5 ">Selecciona la opción que mejor describe tu nivel de actividad
+                                        física semanal:</p>
                                     <section class="">
                                         <div class="form-check p-3">
                                             <input class="form-check-input" type="radio" name="factorActividad"
-                                                value="Menos de 3 horas semanales">
-                                            <label class="fs-5  form-check-label"><b>2</b> horas semanales <b>(Inactivo)</b></label>
+                                                value="Menos de 3 horas semanales" id="regular">
+                                            <label class="fs-5  form-check-label" for="regular"><b>2 horas semanales</b>
+                                                (Inactivo)</label>
                                         </div>
                                         <div class="form-check p-3">
                                             <input class="form-check-input" type="radio" name="factorActividad"
                                                 value="3 Horas semanales">
-                                            <label class="fs-5 form-check-label"><b>3</b> Horas semanales <b>(Regularmente Activo)</b></label>
+                                            <label class="fs-5 form-check-label"><b>3 Horas semanales</b>
+                                                (Regularmente Activo)</label>
                                         </div>
                                         <div class="form-check p-3">
                                             <input class="form-check-input" type="radio" name="factorActividad"
-                                                value="6 Horas semanales"> 
-                                            <label class="fs-5 form-check-label"><b>6</b> Horas semanales <b>(Activo)</b></label>
+                                                value="6 Horas semanales" id="activo">
+                                            <label class="fs-5 form-check-label" for="activo"><b>6 Horas semanales</b>
+                                                (Activo)</label>
                                         </div>
                                         <div class="form-check p-3">
                                             <input class="form-check-input" type="radio" name="factorActividad"
-                                                value="4-5 horas Diarias">
-                                            <label class="fs-5 form-check-label">Mas de <b>25</b> horas Semanales <b>(Deportistas Alto Rendimiento)</b></label>
+                                                value="4-5 horas Diarias" id="altoRendimiento">
+                                            <label class="fs-5 form-check-label" for="altoRendimiento">Más de <strong>25
+                                                    horas semanales</strong> (Deportista de Alto Rendimiento)</label>
                                         </div>
                                     </section>
                                 </section>
-                            </section>
+                            </fieldset>
                         </div>
 
                         <div class="col ms-4 rounded">
@@ -123,7 +128,7 @@
                         </div>
 
                         <div class="text-center pt-3">
-                            <button type="submit" class="btn btn-primary fs-4" id="mostrarSeleccion">Calcular
+                            <button type="submit" class="btn btn-primary fs-4" id="mostrarSeleccion">Calcula tu
                                 GET</button>
                         </div>
                     </form>

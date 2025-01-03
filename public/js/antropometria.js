@@ -219,6 +219,15 @@ document.getElementById('imc-form').addEventListener('submit', async function (e
     console.error('Error en la solicitud:', error);
 }
 
+// ***ELIMINA LOS DATOS INGRESADOS EN EL INPUT***
+// const inputs = document.querySelectorAll('#imc-form input');
+
+//     // Limpiar cada campo de entrada
+//     inputs.forEach(input => {
+//         input.value = '';
+//     });
+// ***ELIMINA LOS DATOS INGRESADOS EN EL INPUT***
+
 
 });
 

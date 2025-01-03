@@ -57,6 +57,10 @@ router.get('/politica-de-cookies', authController.isAuthenticated, (req, res) =>
 router.get('/avisoLegal', authController.isAuthenticated, (req, res) => {
     res.render('avisoLegal', { user: req.user })
 })
+
+router.get('/contact', authController.isAuthenticated, (req, res) => {
+    res.render('contact', { user: req.user })
+})
 // router para las vistas
 
 // router para los metodos del controller

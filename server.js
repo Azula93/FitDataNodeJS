@@ -87,6 +87,27 @@ app.delete('/eliminar-dato/:id', authController.isAuthenticated, (req, res) => {
 });
 // ELIMINAR DATOS DE "misdatos"
 
+// ENVIAR DATOS DEL FORM CONTACTANOS 
+app.post('/submit', (req, res) => {
+    const { name, email, message } = req.body;
+  
+    if (!name || !email || !message) {
+      return res.status(400).send({ success: false, message: 'Todos los campos son obligatorios.' });
+    }
+  
+    const sql = 'INSERT INTO messages (name, email, message) VALUES (?, ?, ?)';
+    connection.query(sql, [name, email, message], (err, result) => {
+      if (err) {
+        console.error('Error al guardar el mensaje:', err);
+        return res.status(500).send({ success: false, message: 'Error al guardar el mensaje.' });
+      }
+  
+      res.status(200).send({ success: true, message: 'Mensaje enviado correctamente.' });
+    });
+  });
+  
+// ENVIAR DATOS DEL FORM CONTACTANOS *******
+
 
 // conexion al puerto
 // const PORT = process.env.PORT || 3000;
